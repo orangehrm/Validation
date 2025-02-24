@@ -52,10 +52,6 @@ final class Email extends AbstractRule
             return false;
         }
 
-        if ($this->validator !== null) {
-            return $this->validator->isValid($input, new RFCValidation());
-        }
-
         return (bool) filter_var($input, FILTER_VALIDATE_EMAIL);
     }
 
