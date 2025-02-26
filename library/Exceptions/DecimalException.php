@@ -19,10 +19,10 @@ final class DecimalException extends ValidationException
      */
     protected $defaultTemplates = [
         self::MODE_DEFAULT => [
-            self::STANDARD => '{{name}} must have {{decimals}} decimals',
+            self::STANDARD => '{{name}} must be a valid number with {{decimals}} decimals',
         ],
         self::MODE_NEGATIVE => [
-            self::STANDARD => '{{name}} must not have {{decimals}} decimals',
+            self::STANDARD => '{{name}} must not be a valid number with {{decimals}} decimals',
         ],
     ];
 }

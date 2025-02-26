@@ -27,9 +27,15 @@ final class Decimal extends AbstractRule
      */
     private $decimals;
 
-    public function __construct(int $decimals)
+    /**
+     * @var string
+     */
+    private $separator;
+
+    public function __construct(int $decimals, string $separator = '')
     {
         $this->decimals = $decimals;
+        $this->separator = $separator;
     }
 
     /**
@@ -37,35 +43,22 @@ final class Decimal extends AbstractRule
      */
     public function validate($input): bool
     {
-        if (!is_numeric($input)) {
+        if (!is_numeric(str_replace($this->separator, '', $input))) {
             return false;
         }
 
-        return $this->toFormattedString($input) === $this->toRawString($input);
+        return $this->isValidDecimal($input);
     }
 
     /**
      * @param mixed $input
      */
-    private function toRawString($input): string
+    private function isValidDecimal($input): bool
     {
-        if (is_string($input)) {
-            return $input;
-        }
-
-        return var_export($input, true);
-    }
-
-    /**
-     * @param mixed $input
-     */
-    private function toFormattedString($input): string
-    {
-        $formatted = number_format((float) $input, $this->decimals, '.', '');
-        if (is_string($input)) {
-            return $formatted;
-        }
-
-        return preg_replace('/^(\d+\.\d)0*$/', '$1', $formatted) ?: '';
+        $formatted = number_format((float) str_replace($this->separator, '', $input), $this->decimals, '.', $this->separator);
+        return rtrim(
+                preg_replace('/\.(\d*?[1-9])?0*$/', '.$1', $formatted),
+                '.'
+            ) == rtrim(preg_replace('/\.(\d*?[1-9])?0*$/', '.$1', $input), '.');
     }
 }
