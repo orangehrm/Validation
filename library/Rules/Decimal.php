@@ -32,7 +32,7 @@ final class Decimal extends AbstractRule
      */
     private $separator;
 
-    public function __construct(int $decimals, string $separator = '')
+    public function __construct(int $decimals = 2, string $separator = '')
     {
         $this->decimals = $decimals;
         $this->separator = $separator;
