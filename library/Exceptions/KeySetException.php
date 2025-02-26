@@ -36,11 +36,10 @@ final class KeySetException extends GroupedValidationException implements NonOmi
      */
     protected function chooseTemplate(): string
     {
-
         if (count($this->getParam('extraKeys'))) {
             return self::STRUCTURE_EXTRA;
         }
-        
+
         if (count($this->getChildren()) === 0) {
             return self::STRUCTURE;
         }
